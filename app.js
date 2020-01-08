@@ -4,6 +4,7 @@ let bodyParser = require("body-parser");
 let mongoose = require("mongoose");
 let methodOverride = require("method-override");
 let expressSanitizer = require("express-sanitizer");
+let Blog = require("./models/blogSchema");
 
 // APP CONFIG
 mongoose.connect("mongodb://localhost/restful_blog_app", {
@@ -15,16 +16,6 @@ app.use(express.static("public")); // to serve custom stylesheets
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(expressSanitizer()); // has to come after bodyParser
 app.use(methodOverride("_method")); //looks for '_method=' in a query string
-
-// MONGOOSE/MODEL CONFIG 
-let blogSchema = new mongoose.Schema({
-    title: String,
-    image: String,
-    body: String,
-    created: {type: Date, default: Date.now}
-});
-
-let Blog = mongoose.model("Blog", blogSchema);
 
 // RESTful ROUTES
 app.get("/", (request, response) => {
